@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ReadFile;
 using ItsFillwords;
+using SelectInBoard;
 
 namespace MenuNewGame
 {
@@ -9,18 +10,53 @@ namespace MenuNewGame
     {
         private string Name;
 
+        public char[,] ArrayTabl;
+        public int Koor;
+        private int Kol = 5;
+        private int KolUrovn = 1;
+        public int Points = 0;
+
         private List<string> Words;
+        private List<string> AccWords = new List<string>();
         public void ReadNewGame()
         {
             SelectName();
 
             Console.Clear();
 
-            Console.WriteLine($"\n{Name}");
+            Console.WriteLine($"\nПривет {Name}\nНажмите Enter чтобы продолжить!");
 
+            ConsoleKeyInfo key;
 
             SearchWords();
 
+            do 
+            {
+                if (KolUrovn % 5 == 0)
+                    Kol++;
+
+
+                key = Console.ReadKey();
+
+                Console.Clear();
+
+                WordsRandom();
+
+                Selecting TheLink = new Selecting();
+
+                TheLink.ArrayTabl = ArrayTabl; TheLink.koor = Koor; TheLink.Name = Name; TheLink.AccWords = AccWords; TheLink.KolUrov = Convert.ToString(KolUrovn);
+
+                TheLink.Points = Points;
+
+                TheLink.Select();
+
+                KolUrovn++;
+
+                Points = TheLink.Points;
+
+            } while (key.Key != ConsoleKey.Escape);
+
+            
 
         }
         private void SelectName()  //ввод имени
@@ -57,17 +93,13 @@ namespace MenuNewGame
             TheLink.Dictionary();
             Words = TheLink.Words;
 
-            int Kol = 5;
-            WordsRandom(Kol);
 
         }
-        private void WordsRandom(int Kol)
+        private void WordsRandom()
         {
             Random rnd = new Random();
 
             int VsegoB = 0; int value;
-
-            List<string> AccWords = new List<string>();
 
             //Поиск подхлдящих слов
             do
@@ -79,6 +111,7 @@ namespace MenuNewGame
                     VsegoB += Words[value].Length;
 
                     AccWords.Add(Words[value].ToUpper());
+
                 }
                 else if (VsegoB > Kol * Kol + AccWords.Count || AccWords.Count < 3)
                 {
@@ -100,6 +133,12 @@ namespace MenuNewGame
             TheLink.Koor = Kol;
             TheLink.AccWords = AccWords;
             TheLink.RazborSlov();
+            ArrayTabl = TheLink.ArrayTabl; Koor = TheLink.Koor;
+
+            Console.WriteLine("\n" + Name);
+            Console.WriteLine("Уровеь: " + KolUrovn);
+            Console.WriteLine("Очки: "+ Points);
+            TheLink.BuildTabl();
 
         }
     }
