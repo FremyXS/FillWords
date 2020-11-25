@@ -6,7 +6,7 @@ namespace ReadFile
 {
     public class ReadListWords
     {
-        private string text = File.ReadAllText(@"\..\word_rus.txt");
+        private string text = File.ReadAllText(@"filesystem\word_rus.txt");
         public List<string> Words = new List<string>();
 
         public object Dictionary()
