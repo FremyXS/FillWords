@@ -1,66 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReadFile;
-using ItsFillwords;
-using SelectInBoard;
+using System.Text;
 
-namespace MenuNewGame
+namespace FillWordsNewVersion
 {
-    public class NewGame
+    class NewGame
     {
-        private string Name;
-
-        public char[,] ArrayTabl;
-        public int Koor;
-        private int Kol = 5;
-        private int KolUrovn = 1;
-        public int Points = 0;
-
-        private List<string> Words;
-        private List<string> AccWords = new List<string>();
-        public void ReadNewGame()
+        public void StartNewGame()
         {
-            SelectName();
+            ReadAllDataInFiles link2 = new ReadAllDataInFiles();
+            
+            AllData.Name = SelectName();
 
             Console.Clear();
 
-            Console.WriteLine($"\nПривет {Name}\nНажмите Enter чтобы продолжить!");
-
             ConsoleKeyInfo key;
 
-            SearchWords();
-
-            do 
+            do
             {
-                if (KolUrovn % 5 == 0)
-                    Kol++;
-
-
+                Console.WriteLine($"\nПривет {AllData.Name}\nНажмите Enter чтобы продолжить!");
                 key = Console.ReadKey();
 
+            } while (key.Key != ConsoleKey.Enter);
+
+            AllData.Words = link2.Dictionary();
+
+            Cicle();
+
+        }
+        public void Cicle()
+        {
+            int lvl = AllData.lvl;
+
+            SelectInBoard link = new SelectInBoard();
+            do
+            {
                 Console.Clear();
+
+                if (AllData.lvl % 5 == 0)
+                    AllData.Koor += 1;
 
                 WordsRandom();
 
-                Selecting TheLink = new Selecting();
+                new AllData();
 
-                TheLink.ArrayTabl = ArrayTabl; TheLink.koor = Koor; TheLink.Name = Name; TheLink.AccWords = AccWords; TheLink.KolUrov = Convert.ToString(KolUrovn);
+                link.Select();
 
-                TheLink.Points = Points;
 
-                TheLink.Select();
-
-                KolUrovn++;
-
-                Points = TheLink.Points;
-
-            } while (key.Key != ConsoleKey.Escape);
-
-            
-
+            } while (5 > 1);
         }
-        private void SelectName()  //ввод имени
+        private string SelectName()  //ввод имени
         {
+            string name;
             Console.Clear();
 
             Console.WriteLine(new string('\n', 5));
@@ -72,28 +63,23 @@ namespace MenuNewGame
             {
                 error = 0;
 
-                Name = Console.ReadLine();
+                name = Console.ReadLine();
 
-                foreach (var i in Name)
+                foreach (var i in name)
                 {
                     if (i < '0' || i > '9' && i < 'A' || i > 'Z' && i < 'a' || i > 'z' && i < 'А' || i > 'Я' && i < 'а' || i > 'я')
+                        error++;
+                    if (name.Length == 0)
                         error++;
                 }
 
                 if (error > 0)
                     Console.WriteLine("Вы ввели не верно имя\nМожно использовать только символы латинского алфавита, кирилицу и цифры!");
-                Console.Write(new string (' ', 90));
+                Console.Write(new string(' ', 90));
 
             } while (error > 0);
-        }
-        private void SearchWords() //добавляем список слов
-        {
-            ReadListWords TheLink = new ReadListWords();
 
-            TheLink.Dictionary();
-            Words = TheLink.Words;
-
-
+            return name;
         }
         private void WordsRandom()
         {
@@ -101,46 +87,34 @@ namespace MenuNewGame
 
             int VsegoB = 0; int value;
 
-            //Поиск подхлдящих слов
+            //Поиск подходящих слов
             do
             {
-                if (VsegoB < Kol * Kol + AccWords.Count)
+                if (VsegoB < AllData.Koor * AllData.Koor + AllData.AccWords.Count)
                 {
-                    value = rnd.Next(0, Words.Count - 1);
+                    value = rnd.Next(0, AllData.Words.Count - 1);
 
-                    VsegoB += Words[value].Length;
+                    VsegoB += AllData.Words[value].Length;
 
-                    AccWords.Add(Words[value].ToUpper());
+                    AllData.AccWords.Add(AllData.Words[value].ToUpper());
 
                 }
-                else if (VsegoB > Kol * Kol + AccWords.Count || AccWords.Count < 3)
+                else if (VsegoB > AllData.Koor * AllData.Koor + AllData.AccWords.Count || AllData.AccWords.Count < 3)
                 {
-                    AccWords.Clear();
+                    AllData.AccWords.Clear();
                     VsegoB = 0;
                 }
-                else if (VsegoB == Kol * Kol + AccWords.Count)
+                else if (VsegoB == AllData.Koor * AllData.Koor + AllData.AccWords.Count)
                 {
-                    foreach(var i in AccWords)
+                    foreach (var i in AllData.AccWords)
                     {
-                        Words.Remove(i);
+                        AllData.Words.Remove(i);
                     }
                 }
-                
-            } while (VsegoB != Kol * Kol + AccWords.Count);
 
-            //переход в другой файл
-            Board TheLink = new Board();
-            TheLink.Koor = Kol;
-            TheLink.AccWords = AccWords;
-            TheLink.RazborSlov();
-            ArrayTabl = TheLink.ArrayTabl; Koor = TheLink.Koor;
-
-            Console.WriteLine("\n" + Name);
-            Console.WriteLine("Уровеь: " + KolUrovn);
-            Console.WriteLine("Очки: "+ Points);
-            TheLink.BuildTabl();
+            } while (VsegoB != AllData.Koor * AllData.Koor + AllData.AccWords.Count);
 
         }
+
     }
-    
 }
