@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Net.NetworkInformation;
-using Menu;
-using MenuDummy;
-using MenuNewGame;
 
-namespace Select
+namespace FillWordsNewVersion
 {
     class SelectInMenu
     {
         static void Main(string[] args)
         {
-            MenuTabl TheLink = new MenuTabl();
-            TheLink.MenuInfo();
+            Start();
+        }
+        public static void Start()
+        {
+
+            MenuInfo TheLink = new MenuInfo();
+            TheLink.MenuWrite();
 
 
             ConsoleKeyInfo key;
@@ -35,14 +36,11 @@ namespace Select
 
                 if (key.Key == ConsoleKey.Enter)
                 {
+                    Console.Clear();
                     SelectPunct(y);
 
-                    if (y == 0)
-                        break;
                 }
-                
-                    
-                
+
             }
             while (key.Key != ConsoleKey.Escape);
         }
@@ -50,26 +48,26 @@ namespace Select
         {
             Console.Clear();
 
-            MenuTabl TheLink = new MenuTabl();
+            MenuInfo TheLink = new MenuInfo();
             TheLink.Head();
             Console.ForegroundColor = ConsoleColor.Red;
-            TheLink.NewGame(); 
+            TheLink.NewGame();
             Console.ForegroundColor = ConsoleColor.Magenta;
             TheLink.Continue();
             TheLink.Rating();
             TheLink.Exit();
-            
+
         }
         private static void LightContinue()
         {
             Console.Clear();
 
-            MenuTabl TheLink = new MenuTabl();
+            MenuInfo TheLink = new MenuInfo();
             TheLink.Head();
-            
+
             TheLink.NewGame();
             Console.ForegroundColor = ConsoleColor.Red;
-            
+
             TheLink.Continue();
             Console.ForegroundColor = ConsoleColor.Magenta;
 
@@ -81,7 +79,7 @@ namespace Select
         {
             Console.Clear();
 
-            MenuTabl TheLink = new MenuTabl();
+            MenuInfo TheLink = new MenuInfo();
             TheLink.Head();
 
             TheLink.NewGame();
@@ -99,7 +97,7 @@ namespace Select
         {
             Console.Clear();
 
-            MenuTabl TheLink = new MenuTabl();
+            MenuInfo TheLink = new MenuInfo();
             TheLink.Head();
 
             TheLink.NewGame();
@@ -116,16 +114,13 @@ namespace Select
         private static void SelectPunct(int y)
         {
             Dummy TheLink = new Dummy();
-            MenuTabl TheLink2 = new MenuTabl();
+            MenuInfo TheLink2 = new MenuInfo();
             NewGame TheLink3 = new NewGame();
 
-            if (y == 0) TheLink3.SelectName();
-            else if (y == 1) { TheLink.DammyContinue(); TheLink2.MenuInfo(); }
-            else if (y == 2) { TheLink.DammyRating(); TheLink2.MenuInfo(); }
+            if (y == 0) TheLink3.StartNewGame();
+            else if (y == 1) { TheLink.DummyContinue();}
+            else if (y == 2) { TheLink.DummyRating();}
             else if (y == 3) TheLink.DummyExit();
         }
-
-
     }
 }
-
