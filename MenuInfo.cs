@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Menu
+namespace FillWordsNewVersion
 {
-    public class MenuTabl
+    class MenuInfo
     {
-
-        public void MenuInfo()
+        public void MenuWrite()
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -60,10 +61,10 @@ namespace Menu
 
             Console.WriteLine(new String('\n', 1));
 
-             Console.WriteLine($"{new String(' ', 90)}  ___         _   _\n"              
-                             + $"{new String(' ', 90)} / __|___ _ _| |_(_)_ _ _  _ ___ \n"
-                             + $"{new String(' ', 90)}| (__/ _ \\ ' \\  _| | ' \\ || / -_)\n"
-                             + $"{new String(' ', 90)} \\___\\___/_||_\\__|_|_||_\\_,_\\___|");
+            Console.WriteLine($"{new String(' ', 90)}  ___         _   _\n"
+                            + $"{new String(' ', 90)} / __|___ _ _| |_(_)_ _ _  _ ___ \n"
+                            + $"{new String(' ', 90)}| (__/ _ \\ ' \\  _| | ' \\ || / -_)\n"
+                            + $"{new String(' ', 90)} \\___\\___/_||_\\__|_|_||_\\_,_\\___|");
         }
         public void Rating()
         {
@@ -84,6 +85,5 @@ namespace Menu
                             + $"{new String(' ', 100)}| _|\\ \\\\ / |  _|\n"
                             + $"{new String(' ', 100)}|___/_\\_\\_|\\__|");
         }
-
     }
 }
